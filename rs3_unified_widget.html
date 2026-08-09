@@ -359,7 +359,7 @@ function wireFilterPills(){document.querySelectorAll('.pill[data-filter]').forEa
 function wireTabs(){document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));tab.classList.add('active');document.getElementById('panel-'+tab.dataset.tab).classList.add('active')})})}
 
 async function init(){
-  const [topologyRaw,furnRaw,leagueRaw,calcRaw]=await Promise.all([loadJSON('./topology_data.json'),loadJSON('./furniture_wiki_link_sources.json'),loadJSON('./equilibrium_league_data.json'),loadJSON('./calculator_index.json')]);
+  const [topologyRaw,furnRaw,leagueRaw,calcRaw]=await Promise.all([loadJSON('./main-game/topology_data.json'),loadJSON('./main-game/furniture_wiki_link_sources.json'),loadJSON('./leagues-ii-equilibrium/equilibrium_league_data.json'),loadJSON('./main-game/calculator_index.json')]);
   const calcNodes=buildCalculatorNodes(calcRaw);
   const topologyResult=buildTopologyNodes(topologyRaw);
   const furnNodes=buildFurnitureNodes(furnRaw);

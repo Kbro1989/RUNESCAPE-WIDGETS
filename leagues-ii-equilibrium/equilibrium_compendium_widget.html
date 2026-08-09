@@ -135,57 +135,61 @@
   </div>
 
   <div id="panel-overview" class="eq-panel active">
+    <div id="dynamic-variant-box" style="text-align:center; padding:15px; margin-bottom:20px; border-radius:8px; background:var(--kimi-color-surface-overlay); border:2px solid var(--kimi-color-border); transition: all 0.3s ease;">
+      <h2 id="dynamic-variant-name" style="color:var(--kimi-color-text-primary); margin-top:0; margin-bottom:10px; font-weight:600; font-size:22px;">Unnamed Wanderer of Gielinor</h2>
+      <div id="dynamic-variant-badge"></div>
+    </div>
     <div class="stat-grid">
-      <div class="stat-box"><div class="stat-value">1,152</div><div class="stat-label">Total tasks</div></div>
-      <div class="stat-box"><div class="stat-value">109,380</div><div class="stat-label">Max points</div></div>
-      <div class="stat-box"><div class="stat-value">7</div><div class="stat-label">Relic tiers</div></div>
-      <div class="stat-box"><div class="stat-value">8</div><div class="stat-label">Blessing tiers</div></div>
-      <div class="stat-box"><div class="stat-value">6</div><div class="stat-label">Max regions</div></div>
-      <div class="stat-box"><div class="stat-value">48,000</div><div class="stat-label">Dragon trophy</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-tasks">—</div><div class="stat-label">Your tasks</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-points">—</div><div class="stat-label">Your points</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-relics">0 / 7</div><div class="stat-label">Relics picked</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-blessings">0 / 8</div><div class="stat-label">Blessings picked</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-regions">3 / 6</div><div class="stat-label">Regions active</div></div>
+      <div class="stat-box"><div class="stat-value" id="ov-trophy">—</div><div class="stat-label">Max trophy</div></div>
     </div>
 
     <div class="section-title">XP multiplier timeline</div>
-    <div class="timeline">
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T1<br>5x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T2<br>8x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T3<br>8x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T4<br>12x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T5<br>12x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T6<br>16x</div></div>
-      <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">T7<br>16x</div></div>
+    <div class="timeline" id="ov-xp-timeline">
+      <div class="timeline-node"><div class="timeline-dot active" id="xp-t1"></div><div class="timeline-label" id="xp-l1" style="font-weight:bold;color:var(--kimi-color-text-primary);">T1<br>5x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-2"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t2"></div><div class="timeline-label" id="xp-l2">T2<br>8x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-3"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t3"></div><div class="timeline-label" id="xp-l3">T3<br>8x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-4"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t4"></div><div class="timeline-label" id="xp-l4">T4<br>12x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-5"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t5"></div><div class="timeline-label" id="xp-l5">T5<br>12x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-6"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t6"></div><div class="timeline-label" id="xp-l6">T6<br>16x</div></div>
+      <div style="flex:1;height:1px;background:var(--kimi-color-border);" id="xp-line-7"></div>
+      <div class="timeline-node"><div class="timeline-dot" id="xp-t7"></div><div class="timeline-label" id="xp-l7">T7<br>16x</div></div>
     </div>
 
     <div class="section-title">Region unlock schedule</div>
-    <div class="timeline">
+    <div class="timeline" id="ov-region-timeline">
       <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">Start<br>Misthalin</div></div>
       <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
       <div class="timeline-node"><div class="timeline-dot active"></div><div class="timeline-label">Start<br>Havenhythe</div></div>
       <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
       <div class="timeline-node"><div class="timeline-dot auto"></div><div class="timeline-label">50 tasks<br>Karamja</div></div>
       <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot choice"></div><div class="timeline-label">175 tasks<br>Choice #1</div></div>
+      <div class="timeline-node"><div class="timeline-dot choice" id="reg-c1-dot"></div><div class="timeline-label" id="reg-c1-label">175 tasks<br>Choice #1</div></div>
       <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot choice"></div><div class="timeline-label">300 tasks<br>Choice #2</div></div>
+      <div class="timeline-node"><div class="timeline-dot choice" id="reg-c2-dot"></div><div class="timeline-label" id="reg-c2-label">300 tasks<br>Choice #2</div></div>
       <div style="flex:1;height:1px;background:var(--kimi-color-border);"></div>
-      <div class="timeline-node"><div class="timeline-dot choice"></div><div class="timeline-label">450 tasks<br>Choice #3</div></div>
+      <div class="timeline-node"><div class="timeline-dot choice" id="reg-c3-dot"></div><div class="timeline-label" id="reg-c3-label">450 tasks<br>Choice #3</div></div>
     </div>
 
     <div class="section-title">Trophy track</div>
     <div class="card">
-      <div class="progress-track">
-        <div class="progress-seg filled" title="Bronze (2,000)"></div>
-        <div class="progress-seg filled" title="Iron (4,000)"></div>
-        <div class="progress-seg filled" title="Steel (10,000)"></div>
-        <div class="progress-seg" title="Mithril (17,000)"></div>
-        <div class="progress-seg" title="Adamant (25,000)"></div>
-        <div class="progress-seg" title="Rune (35,000)"></div>
-        <div class="progress-seg" title="Dragon (48,000)"></div>
+      <div class="progress-track" id="ov-trophies">
+        <div class="progress-seg" id="trophy-bronze" title="Bronze (2,000)"></div>
+        <div class="progress-seg" id="trophy-iron" title="Iron (4,000)"></div>
+        <div class="progress-seg" id="trophy-steel" title="Steel (10,000)"></div>
+        <div class="progress-seg" id="trophy-mithril" title="Mithril (17,000)"></div>
+        <div class="progress-seg" id="trophy-adamant" title="Adamant (25,000)"></div>
+        <div class="progress-seg" id="trophy-rune" title="Rune (35,000)"></div>
+        <div class="progress-seg" id="trophy-dragon" title="Dragon (48,000)"></div>
       </div>
       <div class="progress-labels"><span>Bronze</span><span>Iron</span><span>Steel</span><span>Mithril</span><span>Adamant</span><span>Rune</span><span>Dragon</span></div>
     </div>
@@ -202,6 +206,11 @@
     <div class="section-title">Key special rules</div>
     <div class="card" style="font-size:12px;color:var(--kimi-color-text-secondary);line-height:1.7;">
       Ironman &middot; No trading &middot; Damage cap removed &middot; LP cap removed &middot; Infinite shop stock &middot; Sped-up boss spawns &middot; Quest/D&D XP multiplied &middot; Pets persist between leagues &middot; Reaper weekly cap removed (hard cap 16,000) &middot; DG tokens multiplied &middot; Clues/Slayer/Reaper respect regions &middot; Masterwork at any anvil &middot; Construction workbench in Lumbridge &middot; Invention tutorial auto-completed &middot; Necromancy Kili tasks skipped &middot; Archaeology qualifications bypassed &middot; POF tutorial grants 500 beans &middot; Wendlewick lodestone active from start
+    </div>
+
+    <div class="section-title">Active Build Effects</div>
+    <div id="ov-active-effects" class="card" style="font-size:12px;color:var(--kimi-color-text-secondary);line-height:1.6;display:flex;flex-direction:column;gap:8px;">
+      <div style="text-align:center;color:var(--kimi-color-text-quaternary);padding:10px;">Select relics and blessings to see your build engine.</div>
     </div>
   </div>
 
@@ -423,7 +432,7 @@
       name: "Order Immortal",
       sub: "Tank / 100% protection prayer block / Soul Split sustain",
       tags: ["Order","Icyenic Faith","Tempered Heart","Genesis Essence"],
-      relics: ["endless_harvest","divine_druid","natures_network","crystal_grace","devout","rejuvenated","icyenic_faith"],
+      relics: ["endless_harvest","divine_druid","natures_network","crystal_grace","devout","production_master","rejuvenated","icyenic_faith"],
       blessings: ["teragards_aegis","striking_light","steadfast_will","higher_power","lord_of_light","tempered_heart","genesis_essence"],
       regions: ["misthalin","havenhythe","karamja","fremennik","morytania","tirannwn"],
       identity: "100% protection prayer block + Soul Split + 6% adrenaline/1.2s = you never die. Genesis Essence T120 weapons + Higher Power = tier 156 damage from a tank. Rejuvenated back for Production Master gives +6 boosts and Brooch of Spirits."
@@ -436,12 +445,305 @@
       blessings: ["big_boned","barkscales","eternal_sustenance","true_equilibrium","tearing_thorns","envenomed","power_archive"],
       regions: ["misthalin","havenhythe","karamja","anachronia","kandarin","wilderness"],
       identity: "Every 5th DoT triggers Grasp of Guthix. Envenomed +50% poison and disables immunity. True Equilibrium at 3 stacks gives +225 ability damage, +150 armour, +1,500 LP. Power Archive stores 20 gizmos with doubled ranks -- your poison perks become monstrous."
+    },
+    {
+      name: "The Globetrotter",
+      sub: "Clue Chaser / Explorer / Infinite Riches",
+      tags: ["Utility", "Clue Connoisseur", "Voidwalker"],
+      relics: ["golden_touch","animal_wrangler","voidwalker","antiquarian","clue_connoisseur","production_master","rejuvenated","icyenic_faith"],
+      blessings: ["teragards_aegis","striking_light","steadfast_will","splash_zone","true_equilibrium","lord_of_light","genesis_essence"],
+      regions: ["misthalin","havenhythe","karamja","tirannwn","desert","wilderness"],
+      identity: "Voidwalker shards roll clue scrolls constantly. Clue Connoisseur provides infinite sealed clue limit and max loot rolls. Tirannwn and Wilderness unlock the best clue steps. Golden Touch auto-alchs and steals infinite coins from Desert."
+    },
+    {
+      name: "The Artisan",
+      sub: "Skilling / Production Master / Invention",
+      tags: ["Skilling", "Production Master", "Transmutation"],
+      relics: ["survivalist","superheated","natures_network","transmutation","antiquarian","production_master","perkfection","rejuvenated"],
+      blessings: ["teragards_aegis","barkscales","steadfast_will","true_equilibrium","higher_power","power_archive","genesis_essence"],
+      regions: ["misthalin","havenhythe","karamja","fremennik","asgarnia","kandarin"],
+      identity: "Maximum processing speed. Superheated smelts 60 at a time. Transmutation converts resources. Production Master processes everything in 1 tick. Perkfection 10x disassembly powers invention. Fremennik unlocks Artisans Workshop."
+    },
+    {
+      name: "True Eq Avatar",
+      sub: "Tribrid Master / All Paths / Gizmo Vault",
+      tags: ["Hybrid", "True Equilibrium", "All Paths"],
+      relics: ["golden_touch","divine_druid","assassins_insight","crystal_grace","devout","perkfection","naragi_edict"],
+      blessings: ["adrenaline_junkie","barkscales","steadfast_will","true_equilibrium","unholy_critual","tempered_heart","power_archive"],
+      regions: ["misthalin","havenhythe","karamja","anachronia","asgarnia","morytania"],
+      identity: "Perfectly balances Chaos, Balance, and Order to achieve the elusive True Equilibrium 3x stack (+225 ability damage, +150 armour, +1,500 LP, +15% crit damage, +22.5% crit dmg). Power Archive stores perks from all sets."
+    },
+    {
+      name: "Necromancer Supreme",
+      sub: "Ritual / Magic / Death Mark",
+      tags: ["Necromancy", "Crystal Grace", "Infernal Fire"],
+      relics: ["survivalist","divine_druid","voidwalker","crystal_grace","devout","perkfection","infernal_fire"],
+      blessings: ["adrenaline_junkie","abyssal_cinders","avernic_rampage","demons_mark","unholy_critual","perfidious","genesis_essence"],
+      regions: ["misthalin","havenhythe","karamja","morytania","wilderness","desert"],
+      identity: "Crystal Grace auto-draws ritual glyphs at 200% with no ingredients and unlocks all spells. Infernal Fire Death Mark execute amplified by spell access. Morytania gives ritual sites, Wilderness boosts Slayer targets."
+    },
+    {
+      name: "The Sleeper",
+      sub: "AFK Gatherer / Infinite Sustain",
+      tags: ["AFK", "Endless Harvest", "Devout"],
+      relics: ["endless_harvest","animal_wrangler","divine_druid","natures_network","antiquarian","devout","rejuvenated","naragi_edict"],
+      blessings: ["big_boned","eternal_sustenance","steadfast_will","splash_zone","true_equilibrium","tearing_thorns","power_archive"],
+      regions: ["misthalin","havenhythe","karamja","anachronia","tirannwn","fremennik"],
+      identity: "Never click again. Endless Harvest auto-banks everything. Animal Wrangler handles farming/hunter. Devout Yak gives 10 XP/6s everywhere. Just sit back and watch the XP multiplier grow in Anachronia and Tirannwn."
+    },
+    {
+      name: "The Contradiction",
+      sub: "Self-Sabotage / Synergy Anti-Matter",
+      tags: ["Meme", "Anti-Synergy", "Havoc Born"],
+      relics: ["endless_harvest","golden_touch","superheated","assassins_insight","transmutation","devout","rejuvenated","infernal_fire"],
+      blessings: ["big_boned","striking_light","eternal_sustenance","splash_zone","havoc_born","lord_of_light","tempered_heart"],
+      regions: ["misthalin","havenhythe","karamja","fremennik","kandarin","wilderness"],
+      identity: "An exercise in self-sabotage. Endless Harvest banks logs, but Superheated tries to burn them. Big Boned and Havoc Born fight over your max LP. Higher Power disables the ultimates that Infernal Fire wants to use. Why would you play this?"
+    },
+    {
+      name: "The Pacifist",
+      sub: "Zero Damage / Pure Defense / Unkillable",
+      tags: ["Meme", "Defensive", "Zero Damage"],
+      relics: ["survivalist","divine_druid","natures_network","crystal_grace","antiquarian","devout","rejuvenated","icyenic_faith"],
+      blessings: ["teragards_aegis","barkscales","steadfast_will","splash_zone","true_equilibrium","lord_of_light","tempered_heart"],
+      regions: ["misthalin","havenhythe","karamja","kandarin","morytania","fremennik"],
+      identity: "Absolutely zero offensive capability outside of Reflect. You take no damage, but you also deal no damage. Icyenic Faith and Tempered Heart mean you can pray forever while farming crops in peace."
     }
   ];
 
-  let selectedRelics = {};
-  let selectedBlessings = {};
-  let selectedRegions = new Set();
+  let selectedRelics = JSON.parse(localStorage.getItem('eq_relics') || '{}');
+  let selectedFlexRelic = JSON.parse(localStorage.getItem('eq_flex_relic') || 'null');
+  let selectedBlessings = JSON.parse(localStorage.getItem('eq_blessings') || '{}');
+  let selectedRegions = new Set(JSON.parse(localStorage.getItem('eq_regions') || '[]'));
+
+  function analyzeBuildIdentity() {
+    const hashStr = Object.values(selectedRelics).join('') + (selectedFlexRelic?selectedFlexRelic.idx:'') + Object.values(selectedBlessings).join('') + [...selectedRegions].join('');
+    let hash = 0;
+    for (let i = 0; i < hashStr.length; i++) {
+      hash = ((hash << 5) - hash) + hashStr.charCodeAt(i);
+      hash |= 0;
+    }
+    hash = Math.abs(hash);
+
+    const cPool = ["Executioner", "Warlord", "Reaver", "Destroyer"];
+    const bPool = ["Druid", "Avenger", "Warden", "Guardian"];
+    const oPool = ["Immortal", "Templar", "Paladin", "Crusader"];
+    const mixPool = ["Avatar", "Sovereign", "Equilibrist", "Harmonist"];
+
+    let c = 0, b = 0, o = 0;
+    Object.keys(selectedBlessings).forEach(t => {
+      const bt = blessingTiers.find(x => x.tier == t);
+      if (bt) {
+        const p = bt.choices[selectedBlessings[t]].path;
+        if(p==='Chaos') c++; else if(p==='Balance') b++; else if(p==='Order') o++;
+      }
+    });
+
+    let coreTitle = "Wanderer";
+    let borderColor = "var(--kimi-color-border)";
+
+    if (c === 8) { coreTitle = "Ascendant of Chaos"; borderColor = "var(--kimi-chart-2)"; }
+    else if (b === 8) { coreTitle = "Ascendant of Balance"; borderColor = "var(--kimi-chart-3)"; }
+    else if (o === 8) { coreTitle = "Ascendant of Order"; borderColor = "var(--kimi-chart-1)"; }
+    else if (c >= 6) { coreTitle = cPool[hash % cPool.length]; borderColor = "var(--kimi-chart-2)"; }
+    else if (b >= 6) { coreTitle = bPool[hash % bPool.length]; borderColor = "var(--kimi-chart-3)"; }
+    else if (o >= 6) { coreTitle = oPool[hash % oPool.length]; borderColor = "var(--kimi-chart-1)"; }
+    else if (c >= 4) { coreTitle = cPool[hash % cPool.length]; borderColor = "var(--kimi-chart-2)"; }
+    else if (b >= 4) { coreTitle = bPool[hash % bPool.length]; borderColor = "var(--kimi-chart-3)"; }
+    else if (o >= 4) { coreTitle = oPool[hash % oPool.length]; borderColor = "var(--kimi-chart-1)"; }
+    else if (c > 0 && b > 0 && o > 0) { coreTitle = mixPool[hash % mixPool.length]; borderColor = "#d4a017"; }
+    else if ((c>0 && b>0) || (c>0 && o>0) || (b>0 && o>0)) { coreTitle = "Discordant"; borderColor = "var(--kimi-color-border)"; }
+
+    const prefixMap = {
+      "endless_harvest": "Tireless", "survivalist": "Stalwart", "golden_touch": "Gilded",
+      "animal_wrangler": "Beastmaster", "superheated": "Forged", "divine_druid": "Verdant",
+      "natures_network": "Sylvan", "assassins_insight": "Shadow", "voidwalker": "Abyssal",
+      "crystal_grace": "Crystalline", "transmutation": "Alchemical", "antiquarian": "Ancient",
+      "clue_connoisseur": "Seeker", "production_master": "Artisan", "devout": "Saint",
+      "perkfection": "Perfected", "rejuvenated": "Twice-Blessed", "infernal_fire": "Infernal",
+      "naragi_edict": "Deathless", "icyenic_faith": "Icyene"
+    };
+
+    let prefix = "Unnamed";
+    if (selectedRelics[7] !== undefined) {
+      const r7 = relicTiers.find(rt=>rt.tier==7).choices[selectedRelics[7]];
+      prefix = prefixMap[r7.id];
+    } else if (selectedRelics[6] !== undefined) {
+      const r6 = relicTiers.find(rt=>rt.tier==6).choices[selectedRelics[6]];
+      if (r6.id === "rejuvenated" && selectedFlexRelic) {
+        const ft = relicTiers.find(rt=>rt.tier==selectedFlexRelic.tier);
+        if (ft) prefix = `Twice-Blessed ${prefixMap[ft.choices[selectedFlexRelic.idx].id] || ''}`;
+      } else {
+        prefix = prefixMap[r6.id];
+      }
+    } else {
+      for (let t=5; t>=1; t--) {
+        if (selectedRelics[t] !== undefined) {
+          const r = relicTiers.find(rt=>rt.tier==t).choices[selectedRelics[t]];
+          prefix = prefixMap[r.id];
+          break;
+        }
+      }
+    }
+
+    const sufMap = {
+      "misthalin": "of the Heartlands", "havenhythe": "of the Sanguine Coast", "karamja": "of the Jungle",
+      "anachronia": "of the Lost World", "asgarnia": "of the White Mountain", "desert": "of the Sands",
+      "fremennik": "of the North", "kandarin": "of the Western Realms", "morytania": "of the Myre",
+      "tirannwn": "of the Crystal City", "wilderness": "of the Abyss"
+    };
+
+    const regArr = [...selectedRegions];
+    let lastReg = regArr.length > 0 ? regArr[regArr.length - 1] : (Object.keys(selectedRegions).length === 0 ? "karamja" : "misthalin");
+    let suffix = sufMap[lastReg] || "of Gielinor";
+
+    const paths = [c,b,o].filter(v=>v>0).length;
+    return { name: `${prefix} ${coreTitle} ${suffix}`.trim().replace(/\s+/g, ' '), color: borderColor, paths: paths };
+  }
+
+  function saveState() {
+    localStorage.setItem('eq_relics', JSON.stringify(selectedRelics));
+    localStorage.setItem('eq_flex_relic', JSON.stringify(selectedFlexRelic));
+    localStorage.setItem('eq_blessings', JSON.stringify(selectedBlessings));
+    localStorage.setItem('eq_regions', JSON.stringify([...selectedRegions]));
+    updateOverview();
+  }
+
+  function updateOverview() {
+    const nameEl = document.getElementById('dynamic-variant-name');
+    const badgeEl = document.getElementById('dynamic-variant-badge');
+    const boxEl = document.getElementById('dynamic-variant-box');
+    
+    const ident = analyzeBuildIdentity();
+    if (nameEl) nameEl.textContent = ident.name;
+    if (boxEl) {
+      boxEl.style.borderColor = ident.color;
+      boxEl.style.boxShadow = ident.color === 'var(--kimi-color-border)' ? 'none' : `0 4px 12px ${ident.color}33`;
+    }
+    if (badgeEl) {
+      const bColor = ident.paths === 3 ? '#d4a017' : ident.color;
+      badgeEl.innerHTML = `<span style="display:inline-block;padding:3px 10px;border-radius:12px;background:var(--kimi-color-surface-raised);font-size:11px;font-weight:600;border:1px solid ${bColor};color:var(--kimi-color-text-secondary);">${ident.paths} unique paths &mdash; ${ident.paths === 3 ? '<span style="color:#d4a017;">True Equilibrium maxed</span>' : 'Unbalanced'}</span>`;
+    }
+
+    // Tasks & Points — computed from actual region data
+    let activeTasks = 392; // global tasks not tied to any region
+    let activePoints = 34950; // global points not tied to any region
+    const activeRegions = regions.filter(r => r.starting || r.id === 'karamja' || selectedRegions.has(r.id));
+    activeRegions.forEach(r => {
+      activeTasks += r.tasks;
+      activePoints += r.points;
+    });
+    const ovTasks = document.getElementById('ov-tasks');
+    const ovPoints = document.getElementById('ov-points');
+    if(ovTasks) ovTasks.textContent = activeTasks.toLocaleString();
+    if(ovPoints) ovPoints.textContent = activePoints.toLocaleString();
+
+    // Reactive stat boxes
+    const relicCount = Object.keys(selectedRelics).length + (selectedFlexRelic ? 1 : 0);
+    const blessingCount = Object.keys(selectedBlessings).length;
+    const regionCount = 3 + selectedRegions.size; // 3 fixed + choices
+    const ovRelics = document.getElementById('ov-relics');
+    const ovBlessings = document.getElementById('ov-blessings');
+    const ovRegions = document.getElementById('ov-regions');
+    const ovTrophy = document.getElementById('ov-trophy');
+    if(ovRelics) ovRelics.textContent = `${relicCount} / 7`;
+    if(ovBlessings) ovBlessings.textContent = `${blessingCount} / 8`;
+    if(ovRegions) ovRegions.textContent = `${regionCount} / 6`;
+
+    // Trophy — show highest achievable tier name
+    const trophyLevels = [
+      { name: 'Dragon', pts: 48000 }, { name: 'Rune', pts: 35000 },
+      { name: 'Adamant', pts: 25000 }, { name: 'Mithril', pts: 17000 },
+      { name: 'Steel', pts: 10000 }, { name: 'Iron', pts: 4000 },
+      { name: 'Bronze', pts: 2000 }
+    ];
+    let maxTrophy = 'None';
+    for (const tl of trophyLevels) {
+      if (activePoints >= tl.pts) { maxTrophy = tl.name; break; }
+    }
+    if(ovTrophy) ovTrophy.textContent = maxTrophy;
+
+    // XP Timeline — only light up tiers that are actually selected
+    for (let i = 1; i <= 7; i++) {
+      const dot = document.getElementById('xp-t' + i);
+      const line = document.getElementById('xp-line-' + i);
+      const label = document.getElementById('xp-l' + i);
+      const tierSelected = selectedRelics[i] !== undefined || (selectedFlexRelic && selectedFlexRelic.tier === i);
+      if (dot) {
+        if(tierSelected) dot.classList.add('active'); else dot.classList.remove('active');
+      }
+      if (line) line.style.background = tierSelected ? 'var(--kimi-color-positive)' : 'var(--kimi-color-border)';
+      if (label) {
+        label.style.fontWeight = tierSelected ? 'bold' : 'normal';
+        label.style.color = tierSelected ? 'var(--kimi-color-text-primary)' : 'var(--kimi-color-text-secondary)';
+      }
+    }
+
+    // Region unlock schedule
+    const choiceRegions = [...selectedRegions];
+    const c1Label = document.getElementById('reg-c1-label');
+    const c2Label = document.getElementById('reg-c2-label');
+    const c3Label = document.getElementById('reg-c3-label');
+    if (c1Label) c1Label.innerHTML = `175 tasks<br>${choiceRegions[0] ? regions.find(r=>r.id===choiceRegions[0]).name : 'Choice #1'}`;
+    if (c2Label) c2Label.innerHTML = `300 tasks<br>${choiceRegions[1] ? regions.find(r=>r.id===choiceRegions[1]).name : 'Choice #2'}`;
+    if (c3Label) c3Label.innerHTML = `450 tasks<br>${choiceRegions[2] ? regions.find(r=>r.id===choiceRegions[2]).name : 'Choice #3'}`;
+    
+    const c1Dot = document.getElementById('reg-c1-dot');
+    const c2Dot = document.getElementById('reg-c2-dot');
+    const c3Dot = document.getElementById('reg-c3-dot');
+    if(c1Dot) { c1Dot.style.background = choiceRegions[0] ? 'var(--kimi-color-positive)' : 'var(--kimi-color-accent)'; c1Dot.classList.toggle('active', !!choiceRegions[0]); }
+    if(c2Dot) { c2Dot.style.background = choiceRegions[1] ? 'var(--kimi-color-positive)' : 'var(--kimi-color-accent)'; c2Dot.classList.toggle('active', !!choiceRegions[1]); }
+    if(c3Dot) { c3Dot.style.background = choiceRegions[2] ? 'var(--kimi-color-positive)' : 'var(--kimi-color-accent)'; c3Dot.classList.toggle('active', !!choiceRegions[2]); }
+
+    // Trophy track visual
+    const thresholds = { 'bronze': 2000, 'iron': 4000, 'steel': 10000, 'mithril': 17000, 'adamant': 25000, 'rune': 35000, 'dragon': 48000 };
+    for (const [t, val] of Object.entries(thresholds)) {
+      const el = document.getElementById('trophy-' + t);
+      if (el) {
+        if(activePoints >= val) el.classList.add('filled');
+        else el.classList.remove('filled');
+      }
+    }
+
+    // Active Build Effects
+    const effectsContainer = document.getElementById('ov-active-effects');
+    if (effectsContainer) {
+      let effectsHTML = '';
+      const selectedR = Object.entries(selectedRelics).map(([t, idx]) => relicTiers.find(rt => rt.tier == t).choices[idx]);
+      if (selectedFlexRelic) selectedR.push(relicTiers.find(rt => rt.tier == selectedFlexRelic.tier).choices[selectedFlexRelic.idx]);
+      
+      const selectedB = Object.entries(selectedBlessings).map(([t, idx]) => blessingTiers.find(bt => bt.tier == t).choices[idx]);
+
+      if (selectedR.length === 0 && selectedB.length === 0) {
+        effectsHTML = '<div style="text-align:center;color:var(--kimi-color-text-quaternary);padding:10px;">Select relics and blessings to see your build engine.</div>';
+      } else {
+        if (selectedR.length > 0) {
+          effectsHTML += '<div style="font-weight:600;color:var(--kimi-color-text-primary);margin-bottom:4px;">Relic Effects</div>';
+          selectedR.forEach(r => {
+            effectsHTML += `<div style="margin-bottom:6px;"><span style="color:var(--kimi-color-text-primary);font-weight:500;">${r.name}:</span> ${r.desc}</div>`;
+          });
+        }
+        if (selectedB.length > 0) {
+          effectsHTML += '<div style="font-weight:600;color:var(--kimi-color-text-primary);margin-top:8px;margin-bottom:4px;">Blessing Effects</div>';
+          selectedB.forEach(b => {
+            const c = b.path === 'Chaos' ? 'var(--kimi-chart-2)' : b.path === 'Balance' ? 'var(--kimi-chart-3)' : 'var(--kimi-chart-1)';
+            effectsHTML += `<div style="margin-bottom:6px;"><span style="color:${c};font-weight:500;">${b.name}:</span> ${b.desc}</div>`;
+          });
+        }
+
+        // True Eq checking
+        const t1_6_paths = [1,2,3,4,5,6].map(t => selectedBlessings[t] !== undefined ? blessingTiers.find(b => b.tier == t).choices[selectedBlessings[t]].path : null).filter(Boolean);
+        const unique = [...new Set(t1_6_paths)];
+        const stacks = Math.min(unique.length, 3) || 0;
+        if (stacks > 0 && selectedB.find(b => b.id === 'true_equilibrium')) {
+           const stats = { ad: 75 * stacks, ar: 50 * stacks, lp: 500 * stacks, cc: 5 * stacks, cd: 7.5 * stacks, pb: 5 * stacks };
+           effectsHTML += `<div style="font-weight:600;color:var(--kimi-chart-3);margin-top:8px;margin-bottom:4px;">True Equilibrium Stats (${stacks}x stack)</div>`;
+           effectsHTML += `<div>+${stats.ad} ability dmg, +${stats.ar} armour, +${stats.lp} LP, +${stats.cc}% crit chance, +${stats.cd}% crit dmg, +${stats.pb} Prayer</div>`;
+        }
+      }
+      effectsContainer.innerHTML = effectsHTML;
+    }
+  }
 
   function renderRelics() {
     const container = document.getElementById('relics-list');
@@ -455,7 +757,9 @@
         <div class="passives">${rt.passives.map(p => `&bull; ${p}`).join('<br>')}</div>
         <div class="choices">
           ${rt.choices.map((c,i) => {
-            const sel = selected === i ? 'selected relic' : '';
+            let sel = '';
+            if (selected === i) sel = 'selected relic';
+            if (selectedFlexRelic && selectedFlexRelic.tier == rt.tier && selectedFlexRelic.idx == i) sel = 'selected relic';
             const skills = c.skills.length ? `<span style="color:var(--kimi-color-text-quaternary);font-size:11px;">${c.skills.join(', ')}</span>` : '';
             const clar = c.clarifications ? c.clarifications.map(cl => `<div class="clarification">${cl}</div>`).join('') : '';
             return `<div class="choice ${sel}" data-tier="${rt.tier}" data-idx="${i}">
@@ -472,8 +776,31 @@
       el.addEventListener('click', () => {
         const tier = parseInt(el.dataset.tier);
         const idx = parseInt(el.dataset.idx);
-        if (selectedRelics[tier] === idx) delete selectedRelics[tier];
-        else selectedRelics[tier] = idx;
+        const isRejuvActive = selectedRelics[6] === 1;
+
+        if (tier === 6 && idx === 1) { // Toggling Rejuvenated
+          if (selectedRelics[tier] === idx) {
+            delete selectedRelics[tier];
+            selectedFlexRelic = null;
+          } else {
+            selectedRelics[tier] = idx;
+          }
+        } else if (isRejuvActive && tier >= 1 && tier <= 5) {
+          if (selectedRelics[tier] === idx) {
+            delete selectedRelics[tier];
+          } else if (selectedFlexRelic && selectedFlexRelic.tier === tier && selectedFlexRelic.idx === idx) {
+            selectedFlexRelic = null;
+          } else if (selectedRelics[tier] !== undefined) {
+            selectedFlexRelic = { tier, idx };
+          } else {
+            selectedRelics[tier] = idx;
+          }
+        } else {
+          if (selectedRelics[tier] === idx) delete selectedRelics[tier];
+          else selectedRelics[tier] = idx;
+        }
+        
+        saveState();
         renderRelics();
         updateRelicSummary();
       });
@@ -486,6 +813,10 @@
       const rt = relicTiers.find(r => r.tier == tier);
       return { tier: rt.tier, name: rt.choices[idx].name };
     });
+    if (selectedFlexRelic) {
+      const flexRt = relicTiers.find(r => r.tier == selectedFlexRelic.tier);
+      picks.push({ tier: flexRt.tier + ' (Flex)', name: flexRt.choices[selectedFlexRelic.idx].name });
+    }
     if (!picks.length) { bar.innerHTML = '<span style="font-size:12px;color:var(--kimi-color-text-quaternary);">Click relics to plan your path</span>'; return; }
     bar.innerHTML = picks.map(p => `<span class="pill">T${p.tier}: ${p.name}</span>`).join('');
   }
@@ -520,6 +851,7 @@
         const idx = parseInt(el.dataset.idx);
         if (selectedBlessings[tier] === idx) delete selectedBlessings[tier];
         else selectedBlessings[tier] = idx;
+        saveState();
         renderBlessings();
         updateBlessingSummary();
       });
@@ -609,6 +941,7 @@
         } else if (selectedRegions.size < 3) {
           selectedRegions.add(id);
         }
+        saveState();
         renderRegions();
         showRegionDetail(r);
       });
@@ -669,9 +1002,17 @@
         const b = builds[idx];
         // Load relics
         selectedRelics = {};
+        selectedFlexRelic = null;
         b.relics.forEach((rid, i) => {
           const tier = relicTiers.find(rt => rt.choices.some(c => c.id === rid));
-          if (tier) selectedRelics[tier.tier] = tier.choices.findIndex(c => c.id === rid);
+          if (tier) {
+            const idx = tier.choices.findIndex(c => c.id === rid);
+            if (selectedRelics[tier.tier] !== undefined) {
+              selectedFlexRelic = { tier: tier.tier, idx: idx };
+            } else {
+              selectedRelics[tier.tier] = idx;
+            }
+          }
         });
         // Load blessings
         selectedBlessings = {};
@@ -681,15 +1022,16 @@
         });
         // Load regions
         selectedRegions = new Set(b.regions.filter(rid => !['misthalin','havenhythe','karamja'].includes(rid)));
+        saveState();
         // Refresh all
         renderRelics(); updateRelicSummary();
         renderBlessings(); updateBlessingSummary();
         renderRegions();
-        // Switch to relics tab
+        // Switch to overview tab to see the reactive dashboard
         document.querySelectorAll('.eq-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.eq-panel').forEach(p => p.classList.remove('active'));
-        document.querySelector('[data-tab="relics"]').classList.add('active');
-        document.getElementById('panel-relics').classList.add('active');
+        document.querySelector('[data-tab="overview"]').classList.add('active');
+        document.getElementById('panel-overview').classList.add('active');
       });
     });
   }
@@ -701,6 +1043,7 @@
       document.querySelectorAll('.eq-panel').forEach(p => p.classList.remove('active'));
       tab.classList.add('active');
       document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      if (tab.dataset.tab === 'overview') updateOverview();
     });
   });
 
@@ -716,6 +1059,7 @@
   // Region clear
   document.getElementById('region-clear').addEventListener('click', () => {
     selectedRegions.clear();
+    saveState();
     renderRegions();
     document.getElementById('region-detail').style.display = 'none';
   });
@@ -726,6 +1070,7 @@
   renderRegions();
   renderSynergies();
   renderBuilds();
+  updateOverview();
 })();
 </script>
 </body>
