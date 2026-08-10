@@ -996,9 +996,9 @@
             return s && t;
           })
           .map((e) => ({
+            ...e,
             source: nodeById.get(slugify(e.source)),
             target: nodeById.get(slugify(e.target)),
-            ...e,
           }));
         const cam = { x: 0, y: 0, zoom: 1 };
         let drag = null,
