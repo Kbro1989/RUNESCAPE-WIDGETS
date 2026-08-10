@@ -80,6 +80,40 @@
       animation: fadeDown 0.8s ease-out;
     }
 
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(192, 132, 252, 0.4);
+      box-shadow: 0 0 25px rgba(192, 132, 252, 0.25), 0 0 60px rgba(59, 130, 246, 0.1);
+      margin-bottom: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 35px rgba(192, 132, 252, 0.4), 0 0 80px rgba(59, 130, 246, 0.2);
+    }
+
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #c084fc, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
     h1 {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
@@ -219,6 +253,10 @@
 
   <div class="container">
     <header>
+      <div class="logo-section">
+        <img src="1785112183713.jpg" alt="Pick of Gods Logo" class="logo-img">
+        <span class="brand-name">Pick of Gods</span>
+      </div>
       <h1>RuneScape Workspace</h1>
       <p>Your central directory for all interactive graphs, compendiums, and topology explorers.</p>
     </header>
