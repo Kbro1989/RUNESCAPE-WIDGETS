@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuneScape Workspace Directory</title>
+  <meta name="description" content="Central directory hub for RuneScape Equilibrium League widgets, Calculators, and unified topology graphs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --card-bg: rgba(24, 24, 27, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.12);
+      --primary: #c084fc;
+      --secondary: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Dynamic Background Blobs */
+    .blob {
+      position: absolute;
+      filter: blur(100px);
+      z-index: -1;
+      opacity: 0.5;
+      animation: float 10s infinite alternate ease-in-out;
+    }
+    .blob.purple {
+      width: 400px;
+      height: 400px;
+      background: rgba(192, 132, 252, 0.3);
+      top: -100px;
+      left: -100px;
+    }
+    .blob.blue {
+      width: 300px;
+      height: 300px;
+      background: rgba(59, 130, 246, 0.2);
+      bottom: -50px;
+      right: -50px;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 50px) scale(1.1); }
+    }
+
+    .container {
+      max-width: 1000px;
+      width: 100%;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      animation: fadeDown 0.8s ease-out;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #f8fafc, #c084fc, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--card-hover);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(192, 132, 252, 0.1);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .icon-wrapper {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .content {
+      flex: 1;
+      z-index: 1;
+    }
+
+    .content h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover .content h3 {
+      color: var(--primary);
+    }
+
+    .content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .card.accent:hover .content h3 {
+      color: var(--secondary);
+    }
+
+    /* Specific Tag Styling */
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.8rem;
+    }
+
+    .badge.unified { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.2); }
+    .badge.league { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+    .badge.base { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient Background -->
+  <div class="blob purple"></div>
+  <div class="blob blue"></div>
+
+  <div class="container">
+    <header>
+      <h1>RuneScape Workspace</h1>
+      <p>Your central directory for all interactive graphs, compendiums, and topology explorers.</p>
+    </header>
+
+    <div class="grid">
+      <!-- Unified Widget -->
+      <a href="rs3_unified_widget.html" class="card">
+        <div class="icon-wrapper">🌌</div>
+        <div class="content">
+          <div class="badge unified">Core</div>
+          <h3>Unified Graph Widget</h3>
+          <p>Combined network graph of League data, calculators, and Wiki topology wired with baseline pointers.</p>
+        </div>
+      </a>
+
+      <!-- Equilibrium Widget -->
+      <a href="leagues-ii-equilibrium/equilibrium_compendium_widget.html" class="card accent">
+        <div class="icon-wrapper">⚖️</div>
+        <div class="content">
+          <div class="badge league">Equilibrium</div>
+          <h3>Equilibrium Compendium</h3>
+          <p>Interactive progress tracker, build planner, and ruleset viewer for Leagues II.</p>
+        </div>
+      </a>
+
+      <!-- Topology Explorer -->
+      <a href="main-game/index.html" class="card accent">
+        <div class="icon-wrapper">🕸️</div>
+        <div class="content">
+          <div class="badge base">Main Game</div>
+          <h3>Topology Explorer</h3>
+          <p>Base-game visual topology explorer for navigating the RuneScape Wiki's network structure.</p>
+        </div>
+      </a>
+
+      <!-- 2026 Calculators -->
+      <a href="main-game/rs3-calculator-index-upgraded-2026.html" class="card">
+        <div class="icon-wrapper">🧮</div>
+        <div class="content">
+          <div class="badge base">Main Game</div>
+          <h3>RS3 Calculators (2026)</h3>
+          <p>Upgraded, modern index of calculators and skilling tools.</p>
+        </div>
+      </a>
+
+      <!-- Legacy Calculators -->
+      <a href="main-game/rs3_calculator_index.html" class="card accent">
+        <div class="icon-wrapper">📜</div>
+        <div class="content">
+          <div class="badge base">Main Game</div>
+          <h3>RS3 Calculators (Legacy)</h3>
+          <p>The original index of calculators and base-game tools.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
