@@ -436,7 +436,7 @@
       sub: "Melee burst / Death Mark snowball / chain executions",
       tags: ["Chaos","Infernal Fire","Adrenaline","Execution"],
       relics: ["survivalist","superheated","voidwalker","crystal_grace","production_master","perkfection","infernal_fire"],
-      blessings: ["adrenaline_junkie","abyssal_cinders","avernic_rampage","havoc_born","unholy_critual","perfidious","chaotic_insight"],
+      blessings: ["adrenaline_junkie","abyssal_cinders","avernic_rampage","demons_mark","havoc_born","unholy_critual","perfidious","chaotic_insight"],
       regions: ["misthalin","havenhythe","karamja","desert","asgarnia","wilderness"],
       identity: "Death Mark execute snowball. Avernic Rampage refunds adrenaline on every execute. Perfidious makes Inferno of Zamorak proc constantly. Chaotic Insight gives Cryptbloom/Elite Tectonic set effects at low piece counts."
     },
@@ -445,7 +445,7 @@
       sub: "Tank / 100% protection prayer block / Soul Split sustain",
       tags: ["Order","Icyenic Faith","Tempered Heart","Genesis Essence"],
       relics: ["endless_harvest","divine_druid","natures_network","crystal_grace","devout","production_master","rejuvenated","icyenic_faith"],
-      blessings: ["teragards_aegis","striking_light","steadfast_will","higher_power","lord_of_light","tempered_heart","genesis_essence"],
+      blessings: ["teragards_aegis","striking_light","steadfast_will","sacred_fervor","higher_power","lord_of_light","tempered_heart","genesis_essence"],
       regions: ["misthalin","havenhythe","karamja","fremennik","morytania","tirannwn"],
       identity: "100% protection prayer block + Soul Split + 6% adrenaline/1.2s = you never die. Genesis Essence T120 weapons + Higher Power = tier 156 damage from a tank. Rejuvenated back for Production Master gives +6 boosts and Brooch of Spirits."
     },
@@ -454,7 +454,7 @@
       sub: "DoT hybrid / poison immunity disable / Grasp of Guthix core",
       tags: ["Balance","Envenomed","Tearing Thorns","True Equilibrium"],
       relics: ["golden_touch","animal_wrangler","assassins_insight","antiquarian","clue_connoisseur","perkfection","naragi_edict"],
-      blessings: ["big_boned","barkscales","eternal_sustenance","true_equilibrium","tearing_thorns","envenomed","power_archive"],
+      blessings: ["big_boned","barkscales","eternal_sustenance","splash_zone","true_equilibrium","tearing_thorns","envenomed","power_archive"],
       regions: ["misthalin","havenhythe","karamja","anachronia","kandarin","wilderness"],
       identity: "Every 5th DoT triggers Grasp of Guthix. Envenomed +50% poison and disables immunity. True Equilibrium at 3 stacks gives +225 ability damage, +150 armour, +1,500 LP. Power Archive stores 20 gizmos with doubled ranks -- your poison perks become monstrous."
     },
@@ -463,7 +463,7 @@
       sub: "Clue Chaser / Explorer / Infinite Riches",
       tags: ["Utility", "Clue Connoisseur", "Voidwalker"],
       relics: ["golden_touch","animal_wrangler","voidwalker","antiquarian","clue_connoisseur","production_master","rejuvenated","icyenic_faith"],
-      blessings: ["teragards_aegis","striking_light","steadfast_will","splash_zone","true_equilibrium","lord_of_light","genesis_essence"],
+      blessings: ["teragards_aegis","striking_light","steadfast_will","sacred_fervor","splash_zone","true_equilibrium","lord_of_light","genesis_essence"],
       regions: ["misthalin","havenhythe","karamja","tirannwn","desert","wilderness"],
       identity: "Voidwalker shards roll clue scrolls constantly. Clue Connoisseur provides infinite sealed clue limit and max loot rolls. Tirannwn and Wilderness unlock the best clue steps. Golden Touch auto-alchs and steals infinite coins from Desert."
     },
@@ -471,10 +471,10 @@
       name: "The Artisan",
       sub: "Skilling / Production Master / Invention",
       tags: ["Skilling", "Production Master", "Transmutation"],
-      relics: ["survivalist","superheated","natures_network","transmutation","antiquarian","production_master","perkfection","rejuvenated"],
-      blessings: ["teragards_aegis","barkscales","steadfast_will","true_equilibrium","higher_power","power_archive","genesis_essence"],
+      relics: ["survivalist","superheated","natures_network","transmutation","antiquarian","rejuvenated","icyenic_faith"],
+      blessings: ["teragards_aegis","barkscales","steadfast_will","sacred_fervor","true_equilibrium","higher_power","lord_of_light","genesis_essence"],
       regions: ["misthalin","havenhythe","karamja","fremennik","asgarnia","kandarin"],
-      identity: "Maximum processing speed. Superheated smelts 60 at a time. Transmutation converts resources. Production Master processes everything in 1 tick. Perkfection 10x disassembly powers invention. Fremennik unlocks Artisans Workshop."
+      identity: "Rejuvenated route. Superheated smelts 60 at a time. Transmutation converts resources. Rejuvenated back-picks Production Master for +6 boost and Brooch of Spirits. Icyenic Faith prayer sustain while skilling. Fremennik unlocks Artisans Workshop."
     },
     {
       name: "True Eq Avatar",
@@ -517,9 +517,18 @@
       sub: "Zero Damage / Pure Defense / Unkillable",
       tags: ["Meme", "Defensive", "Zero Damage"],
       relics: ["survivalist","divine_druid","natures_network","crystal_grace","antiquarian","devout","rejuvenated","icyenic_faith"],
-      blessings: ["teragards_aegis","barkscales","steadfast_will","splash_zone","true_equilibrium","lord_of_light","tempered_heart"],
+      blessings: ["teragards_aegis","barkscales","steadfast_will","sacred_fervor","splash_zone","true_equilibrium","lord_of_light","tempered_heart"],
       regions: ["misthalin","havenhythe","karamja","kandarin","morytania","fremennik"],
       identity: "Absolutely zero offensive capability outside of Reflect. You take no damage, but you also deal no damage. Icyenic Faith and Tempered Heart mean you can pray forever while farming crops in peace."
+    },
+    {
+      name: "The Genesis Lightbringer",
+      sub: "Deterministic Bossing / Adrenaline Templar",
+      tags: ["Hybrid", "True Equilibrium", "Assassin's Insight", "Genesis Essence"],
+      relics: ["golden_touch","divine_druid","assassins_insight","crystal_grace","transmutation","production_master","rejuvenated","naragi_edict"],
+      blessings: ["adrenaline_junkie","striking_light","steadfast_will","sacred_fervor","true_equilibrium","lord_of_light","tempered_heart","genesis_essence"],
+      regions: ["misthalin","havenhythe","karamja","wilderness","desert","anachronia"],
+      identity: "The Adrenaline Templar. 3x True Equilibrium stat bomb (+225 dmg, +1500 LP) with Genesis Essence T120 weapons. Assassin's Insight removes Reaper caps, allowing deterministic boss targeting for Scourge and Tumeken's Light. Naragi Edict ensures you never die."
     }
   ];
 
