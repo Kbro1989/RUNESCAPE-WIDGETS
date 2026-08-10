@@ -1090,14 +1090,14 @@
           requestAnimationFrame(loop);
         }
         loop();
-        const getFilteredNodeKeys = () => {
+        function getFilteredNodeKeys() {
           if (STATE.filter === "all") return new Set();
           return new Set(
             STATE.nodes
               .filter((n) => n.domain === STATE.filter)
               .map((n) => slugify(n.id)),
           );
-        };
+        }
         function hitTest(px, py) {
           const w = W / devicePixelRatio,
             h = H / devicePixelRatio;
