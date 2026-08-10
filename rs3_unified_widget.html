@@ -948,8 +948,10 @@
         const adj = new Map();
         hydrated.forEach(n => adj.set(n.id, []));
         edges.forEach(e => {
-          if (adj.has(e.source)) adj.get(e.source).push(e.target);
-          if (adj.has(e.target)) adj.get(e.target).push(e.source);
+          if (adj.has(e.source) && adj.has(e.target)) {
+            adj.get(e.source).push(e.target);
+            adj.get(e.target).push(e.source);
+          }
         });
 
         const visited = new Set();
