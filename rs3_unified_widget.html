@@ -448,7 +448,8 @@
         }
       }
     </style>
-  </head>
+    <script src="https://unpkg.com/3d-force-graph"></script>
+</head>
   <body>
     <div class="container">
       <div class="header">
@@ -496,7 +497,7 @@
       <div class="panel active" id="panel-graph">
         <div class="stats" id="graph-stats"></div>
         <div class="graph-wrap">
-          <canvas id="graph"></canvas>
+          <div id="graph3d" style="width: 100%; height: 100%;"></div>
           <div class="graph-tools">
             <div class="graph-tool" id="zoom-in" title="Zoom in">+</div>
             <div class="graph-tool" id="zoom-out" title="Zoom out">−</div>
@@ -904,6 +905,44 @@
           }
         }
 
+        
+        // KEYWORD AGNOSTIC MESH LOGIC
+        const stopWords = new Set(["the", "and", "of", "to", "in", "a", "for", "on", "with", "as", "by", "is", "guide", "calculator", "calculators"]);
+        const keywordMap = new Map();
+        
+        function extractKeywords(str) {
+          if (!str) return [];
+          return str.toLowerCase().replace(/[^a-z0-9]+/g, " ").split(" ").filter(w => w.length > 2 && !stopWords.has(w));
+        }
+
+        for (const n of hydrated) {
+          const words = new Set();
+          if (n.label) extractKeywords(n.label).forEach(w => words.add(w));
+          if (n.title) extractKeywords(n.title).forEach(w => words.add(w));
+          if (n.tags) n.tags.forEach(t => extractKeywords(t).forEach(w => words.add(w)));
+          if (n.skill) extractKeywords(n.skill).forEach(w => words.add(w));
+          
+          for (const w of words) {
+            if (!keywordMap.has(w)) keywordMap.set(w, []);
+            keywordMap.get(w).push(n.id);
+          }
+        }
+
+        for (const [kw, nodesList] of keywordMap.entries()) {
+          // Connect keyword clusters that have 2 to 50 nodes (avoid super hubs)
+          if (nodesList.length > 1 && nodesList.length <= 50) {
+            const root = nodesList[0];
+            for (let i = 1; i < nodesList.length; i++) {
+              edges.push({
+                source: root,
+                target: nodesList[i],
+                kind: "keyword-cluster",
+                keyword: kw
+              });
+            }
+          }
+        }
+
         return { nodes: hydrated, edges };
       }
 
@@ -969,211 +1008,64 @@
       }
 
       function initGraph() {
-        const canvas = document.getElementById("graph");
-        const ctx = canvas.getContext("2d");
-        let W, H;
-        const resize = () => {
-          const r = canvas.parentElement.getBoundingClientRect();
-          W = canvas.width = r.width * devicePixelRatio;
-          H = canvas.height = r.height * devicePixelRatio;
-          ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-        };
-        resize();
-        window.addEventListener("resize", resize);
-        const nodes = STATE.nodes.map((n) => ({
-          ...n,
-          x: (Math.random() * Math.min(W, 800)) / devicePixelRatio,
-          y: (Math.random() * Math.min(H, 600)) / devicePixelRatio,
-          vx: 0,
-          vy: 0,
-        }));
-        const edges = STATE.edges.map((e) => ({ ...e }));
-        const nodeById = new Map(nodes.map((n) => [slugify(n.id), n]));
-        const visibleEdges = edges
-          .filter((e) => {
-            const s = nodeById.get(slugify(e.source));
-            const t = nodeById.get(slugify(e.target));
-            return s && t;
-          })
-          .map((e) => ({
-            ...e,
-            source: nodeById.get(slugify(e.source)),
-            target: nodeById.get(slugify(e.target)),
-          }));
-        const cam = { x: 0, y: 0, zoom: 1 };
-        let drag = null,
-          hoverNode = null;
-        function step() {
-          const w = W / devicePixelRatio,
-            h = H / devicePixelRatio;
-          for (const e of visibleEdges) {
-            let dx = e.target.x - e.source.x,
-              dy = e.target.y - e.source.y;
-            let dist = Math.sqrt(dx * dx + dy * dy) || 1;
-            let force = dist * 0.0008;
-            let fx = (dx / dist) * force,
-              fy = (dy / dist) * force;
-            e.source.vx += fx;
-            e.source.vy += fy;
-            e.target.vx -= fx;
-            e.target.vy -= fy;
-          }
-          for (const n of nodes) {
-            n.vx += (w / 2 - cam.x - n.x) * 0.0004;
-            n.vy += (h / 2 - cam.y - n.y) * 0.0004;
-            n.vx *= 0.88;
-            n.vy *= 0.88;
-            n.x += n.vx;
-            n.y += n.vy;
-            n.x = Math.max(20, Math.min(w - 20, n.x));
-            n.y = Math.max(20, Math.min(h - 20, n.y));
-          }
-        }
+        const container = document.getElementById("graph3d");
+        if (!container) return;
+        
         const palette = {
           wiki: "#4a9eff",
           calculator: "#d2b244",
           league: "#b07cc8",
           material: "#8c7b5b",
         };
-        function draw() {
-          const w = W / devicePixelRatio,
-            h = H / devicePixelRatio;
-          ctx.clearRect(0, 0, w, h);
-          ctx.save();
-          ctx.translate(cam.x + w / 2, cam.y + h / 2);
-          ctx.scale(cam.zoom, cam.zoom);
-          ctx.translate(-w / 2, -h / 2);
-          ctx.lineWidth = 0.6;
-          for (const e of visibleEdges) {
-            ctx.strokeStyle = "rgba(120,120,160,0.12)";
-            ctx.beginPath();
-            ctx.moveTo(e.source.x, e.source.y);
-            ctx.lineTo(e.target.x, e.target.y);
-            ctx.stroke();
-          }
-          const filtered = getFilteredNodeKeys();
-          for (const n of nodes) {
-            if (filtered.size && !filtered.has(slugify(n.id))) continue;
-            const color = palette[n.domain] || "#888";
-            const r = Math.max(
-              2.2,
-              2.4 +
-                Math.log2((n.in_degree || n.connections?.length || 1) + 1) *
-                  1.1,
+        
+        // Build Legend
+        const cats = ["wiki", "calculator", "league", "material"];
+        const legendEl = document.getElementById("legend");
+        if(legendEl) {
+          legendEl.innerHTML = cats
+            .map(
+              (c) =>
+                `<div class="graph-legend-item"><div class="graph-legend-dot" style="background:${palette[c] || "#888"}"></div><span>${c}</span></div>`,
+            )
+            .join("");
+        }
+
+        const filteredNodes = STATE.nodes.filter(n => {
+           if (STATE.filter === "all") return true;
+           return n.domain === STATE.filter;
+        });
+        const filteredNodeIds = new Set(filteredNodes.map(n => n.id));
+        
+        const filteredEdges = STATE.edges.filter(e => {
+           // 3d-force-graph modifies e.source/target to be objects after first run, so handle both string and obj
+           const sId = typeof e.source === "object" ? e.source.id : e.source;
+           const tId = typeof e.target === "object" ? e.target.id : e.target;
+           return filteredNodeIds.has(sId) && filteredNodeIds.has(tId);
+        });
+
+        // Clear existing canvas/graph if any
+        container.innerHTML = "";
+        
+        window.graph3d = ForceGraph3D()(container)
+          .backgroundColor("#09090b")
+          .nodeColor(n => palette[n.domain] || "#888")
+          .nodeRelSize(4)
+          .nodeVal(n => Math.log2((n.in_degree || n.connections?.length || 1) + 2) * 1.5)
+          .nodeLabel(n => n.label || n.id)
+          .linkColor(e => e.kind === "keyword-cluster" ? "rgba(100,255,100,0.15)" : "rgba(120,120,160,0.3)")
+          .linkOpacity(1)
+          .linkWidth(e => e.kind === "keyword-cluster" ? 0.3 : 0.6)
+          .onNodeClick(node => {
+            // Optional: fly to node
+            const distance = 40;
+            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+            window.graph3d.cameraPosition(
+              { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+              node, // lookAt
+              3000  // ms transition
             );
-            ctx.beginPath();
-            ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.fill();
-            if (hoverNode === n) {
-              ctx.strokeStyle = "#fff";
-              ctx.lineWidth = 1.6;
-              ctx.stroke();
-            }
-          }
-          if (hoverNode) {
-            ctx.fillStyle = "#fff";
-            ctx.font = "12px var(--font-sans)";
-            const tx = hoverNode.x + 10,
-              ty = hoverNode.y - 10;
-            const text = hoverNode.label;
-            const metrics = ctx.measureText(text);
-            const pw = metrics.width + 12,
-              ph = 22;
-            ctx.fillStyle = "rgba(22,22,42,.92)";
-            ctx.beginPath();
-            ctx.roundRect(tx - 6, ty - ph + 4, pw, ph, 6);
-            ctx.fill();
-            ctx.fillStyle = "#fff";
-            ctx.fillText(text, tx, ty);
-          }
-          ctx.restore();
-        }
-        function loop() {
-          step();
-          draw();
-          requestAnimationFrame(loop);
-        }
-        loop();
-        function getFilteredNodeKeys() {
-          if (STATE.filter === "all") return new Set();
-          return new Set(
-            STATE.nodes
-              .filter((n) => n.domain === STATE.filter)
-              .map((n) => slugify(n.id)),
-          );
-        }
-        function hitTest(px, py) {
-          const w = W / devicePixelRatio,
-            h = H / devicePixelRatio;
-          const x = (px - cam.x - w / 2) / cam.zoom + w / 2;
-          const y = (py - cam.y - h / 2) / cam.zoom + h / 2;
-          const filtered = getFilteredNodeKeys();
-          for (let i = nodes.length - 1; i >= 0; i--) {
-            const n = nodes[i];
-            if (filtered.size && !filtered.has(slugify(n.id))) continue;
-            const r =
-              Math.max(
-                2.2,
-                2.4 +
-                  Math.log2((n.in_degree || n.connections?.length || 1) + 1) *
-                    1.1,
-              ) + 5;
-            if (Math.hypot(n.x - x, n.y - y) < r) return n;
-          }
-          return null;
-        }
-        canvas.addEventListener("mousemove", (e) => {
-          const r = canvas.getBoundingClientRect();
-          const px = e.clientX - r.left,
-            py = e.clientY - r.top;
-          if (drag) {
-            drag.x = px;
-            drag.y = py;
-            drag.vx = 0;
-            drag.vy = 0;
-          } else {
-            hoverNode = hitTest(px, py);
-            canvas.style.cursor = hoverNode ? "pointer" : "grab";
-          }
-          updateTooltip(e, hoverNode);
-        });
-        canvas.addEventListener("mousedown", (e) => {
-          const r = canvas.getBoundingClientRect();
-          const px = e.clientX - r.left,
-            py = e.clientY - r.top;
-          drag = hitTest(px, py);
-          if (drag) canvas.style.cursor = "grabbing";
-        });
-        canvas.addEventListener("mouseup", () => {
-          drag = null;
-          canvas.style.cursor = hoverNode ? "pointer" : "grab";
-        });
-        canvas.addEventListener("mouseleave", () => {
-          drag = null;
-          hoverNode = null;
-          canvas.style.cursor = "grab";
-          hideTooltip();
-        });
-        canvas.addEventListener(
-          "wheel",
-          (e) => {
-            e.preventDefault();
-            const f = e.deltaY > 0 ? 0.88 : 1.12;
-            cam.zoom = Math.max(0.15, Math.min(6, cam.zoom * f));
-          },
-          { passive: false },
-        );
-        document.getElementById("zoom-in").onclick = () =>
-          (cam.zoom = Math.min(6, cam.zoom * 1.35));
-        document.getElementById("zoom-out").onclick = () =>
-          (cam.zoom = Math.max(0.15, cam.zoom / 1.35));
-        document.getElementById("reset-view").onclick = () => {
-          cam.x = 0;
-          cam.y = 0;
-          cam.zoom = 1;
-        };
-        return { updateFilter: () => {} };
+          })
+          .graphData({ nodes: filteredNodes, links: filteredEdges });
       }
 
       const tooltip = document.getElementById("tooltip");
