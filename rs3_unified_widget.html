@@ -662,24 +662,28 @@
           const tags = [];
           if (c.section) tags.push(c.section);
           if (c.skill_title) tags.push(c.skill_title);
-          if (c.badges) for (const b of c.badges) tags.push(b);
+          if (c.badges) {
+            for (const b of c.badges) tags.push(b);
+          }
           return {
-            id: canonicalizeArticle(c.title),
+            id: canonicalizeArticle(c.title || "Unknown"),
             label: c.title,
             domain: "calculator",
             section: c.section,
-            skill: c.skill,
-            badges: c.badges || [],
-            bg_color: c.bg_color,
-            href: c.href,
-            img: c.img,
-            desc: c.desc,
             url: c.href,
-            sources: ["calculator-index"],
-            kind: "calculator",
-            tags: tags,
-            creator_link: c.creator_link || null,
-            meta: c.meta || {},
+            description: c.desc,
+            icon: c.img,
+            occurrences: 1,
+            sources: ["calculator"],
+            tags,
+            skill: c.skill,
+            skill_title: c.skill_title,
+            badges: c.badges,
+            href: c.href,
+            desc: c.desc,
+            title: c.title,
+            creator_link: c.creator_link,
+            bg_color: c.bg_color
           };
         });
       }
@@ -742,6 +746,7 @@
           url: "https://runescape.wiki/w/Leagues_II:_Equilibrium",
           description:
             "Event-based game mode: temporary world with special modifiers, relics, blessings, and region unlocks. Not a core gameplay mode.",
+          sources: ["league"],
         });
         if (leagueData.relic_tiers)
           for (const tier of leagueData.relic_tiers)
