@@ -247,6 +247,33 @@ function mergeAllSources(topologyResult,furnNodes,calcNodes,leagueNodes){
     }
     if(n.backlinks&&Array.isArray(n.backlinks))for(const bl of n.backlinks){const blSlug=slugify(bl);if(nodeById.has(blSlug))edges.push({source:bl,target:node.id,kind:'backlink'})}
   }
+
+  // Use Calculators and Full Wiki Data as baseline source pointers for League modifiers
+  for(const ln of leagueNodes) {
+    if(!ln.skills || !ln.skills.length) continue;
+    const lNode = nodeById.get(slugify(ln.id));
+    if(!lNode) continue;
+    
+    for(const sk of ln.skills) {
+      const skSlug = slugify(sk);
+      for(const n of hydrated) {
+        if(n.id === lNode.id) continue;
+        // Connect to matching calculators
+        if(n.domain === 'calculator') {
+          if((n.skill && slugify(n.skill) === skSlug) || (n.skill_title && slugify(n.skill_title) === skSlug)) {
+            edges.push({source:lNode.id, target:n.id, kind:'league-calc-pointer'});
+          }
+        }
+        // Connect to matching full wiki topology nodes (e.g. the Archaeology skill page itself)
+        if(n.domain === 'wiki') {
+          if(slugify(n.id) === skSlug) {
+            edges.push({source:lNode.id, target:n.id, kind:'league-wiki-pointer'});
+          }
+        }
+      }
+    }
+  }
+
   return {nodes:hydrated,edges};
 }
 
@@ -254,7 +281,7 @@ function summarize(nodes,edges){
   const domains={};const kinds={};
   for(const n of nodes){domains[n.domain]=(domains[n.domain]||0)+1;if(n.kind)kinds[n.kind]=(kinds[n.kind]||0)+1;}
   const linkCount=edges.filter(e=>e.kind==='wiki-link').length;
-  const matCount=edges.filter(e=>e.kind==='material-link'||e.kind==='backlink'||e.kind==='section' || e.kind==='badge' || e.kind==='skill').length;
+  const matCount=edges.filter(e=>e.kind!=='wiki-link').length;
   return {totalNodes:nodes.length,totalEdges:edges.length,wikiLinks:linkCount,materialLinks:matCount,domains,kinds};
 }
 
