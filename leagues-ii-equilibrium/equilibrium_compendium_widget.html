@@ -263,6 +263,18 @@
 </div>
 <script>
 (function(){
+  const BASE_TASKS = 392;
+  const BASE_POINTS = 34950;
+  const TROPHIES = [
+    { name: 'Dragon', pts: 48000, id: 'dragon' },
+    { name: 'Rune', pts: 35000, id: 'rune' },
+    { name: 'Adamant', pts: 25000, id: 'adamant' },
+    { name: 'Mithril', pts: 17000, id: 'mithril' },
+    { name: 'Steel', pts: 10000, id: 'steel' },
+    { name: 'Iron', pts: 4000, id: 'iron' },
+    { name: 'Bronze', pts: 2000, id: 'bronze' }
+  ];
+
   const relicTiers = [
     { tier: 1, points: 10, passives: ["XP multiplier starts at 5x","Farming crops grow 5x faster","Run energy rapidly replenishes to 100%","Archaeology Guild Shop fully available","5x Chronotes from artefacts/collections","Necromancy ritual souls +400%","Invention tutorial auto-completed"], choices: [
       { id:"endless_harvest", name:"Endless Harvest", skills:["Archaeology","Farming","Fishing","Mining","Woodcutting"], desc:"Auto-banks gathering resources. 10% chance to upgrade fish/ore/logs to next tier. Auto-follow fishing spots. Permanent stamina while mining. Active time sprite while excavating. Reduced tree felling rate with auto-resume." },
@@ -626,8 +638,8 @@
     }
 
     // Tasks & Points — computed from actual region data
-    let activeTasks = 392; // global tasks not tied to any region
-    let activePoints = 34950; // global points not tied to any region
+    let activeTasks = BASE_TASKS;
+    let activePoints = BASE_POINTS;
     const activeRegions = regions.filter(r => r.starting || r.id === 'karamja' || selectedRegions.has(r.id));
     activeRegions.forEach(r => {
       activeTasks += r.tasks;
@@ -651,14 +663,8 @@
     if(ovRegions) ovRegions.textContent = `${regionCount} / 6`;
 
     // Trophy — show highest achievable tier name
-    const trophyLevels = [
-      { name: 'Dragon', pts: 48000 }, { name: 'Rune', pts: 35000 },
-      { name: 'Adamant', pts: 25000 }, { name: 'Mithril', pts: 17000 },
-      { name: 'Steel', pts: 10000 }, { name: 'Iron', pts: 4000 },
-      { name: 'Bronze', pts: 2000 }
-    ];
     let maxTrophy = 'None';
-    for (const tl of trophyLevels) {
+    for (const tl of TROPHIES) {
       if (activePoints >= tl.pts) { maxTrophy = tl.name; break; }
     }
     if(ovTrophy) ovTrophy.textContent = maxTrophy;
@@ -696,11 +702,10 @@
     if(c3Dot) { c3Dot.style.background = choiceRegions[2] ? 'var(--kimi-color-positive)' : 'var(--kimi-color-accent)'; c3Dot.classList.toggle('active', !!choiceRegions[2]); }
 
     // Trophy track visual
-    const thresholds = { 'bronze': 2000, 'iron': 4000, 'steel': 10000, 'mithril': 17000, 'adamant': 25000, 'rune': 35000, 'dragon': 48000 };
-    for (const [t, val] of Object.entries(thresholds)) {
-      const el = document.getElementById('trophy-' + t);
+    for (const tl of TROPHIES) {
+      const el = document.getElementById('trophy-' + tl.id);
       if (el) {
-        if(activePoints >= val) el.classList.add('filled');
+        if(activePoints >= tl.pts) el.classList.add('filled');
         else el.classList.remove('filled');
       }
     }
@@ -862,10 +867,20 @@
     const bar = document.getElementById('blessing-summary');
     const godBar = document.getElementById('god-tier-bar');
     const eqBar = document.getElementById('equilibrium-bar');
+    const resetCountEl = document.getElementById('reset-count');
+
     const picks = Object.entries(selectedBlessings).map(([tier, idx]) => {
       const bt = blessingTiers.find(b => b.tier == tier);
       return { tier: bt.tier, name: bt.choices[idx].name, path: bt.choices[idx].path };
     });
+
+    // Compute Resets
+    let resetsEarned = 0;
+    if (picks.find(p => p.tier == 1)) resetsEarned++;
+    if (picks.find(p => p.tier == "God Tier 1")) resetsEarned++;
+    if (picks.find(p => p.tier == "God Tier 2")) resetsEarned++;
+    if (resetCountEl) resetCountEl.textContent = resetsEarned;
+
     if (!picks.length) {
       bar.innerHTML = '<span style="font-size:12px;color:var(--kimi-color-text-quaternary);">Select blessings to track path alignment</span>';
       godBar.innerHTML = '';
@@ -928,6 +943,17 @@
       </div>`;
     }).join('');
     document.getElementById('region-count').textContent = `${selectedRegions.size} / 3 choices made`;
+    
+    // Update clear button state
+    const clearBtn = document.getElementById('region-clear');
+    if (clearBtn) {
+      if (selectedRegions.size === 0) {
+        clearBtn.style.display = 'none';
+      } else {
+        clearBtn.style.display = 'inline-block';
+      }
+    }
+
     container.querySelectorAll('.region-card').forEach(el => {
       el.addEventListener('click', () => {
         const id = el.dataset.id;
