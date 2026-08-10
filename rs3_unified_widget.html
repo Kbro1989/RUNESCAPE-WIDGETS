@@ -49,6 +49,28 @@
         align-items: end;
         justify-content: space-between;
       }
+      .header-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .header-logo {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(74, 158, 255, 0.35);
+        box-shadow: 0 0 16px rgba(74, 158, 255, 0.2);
+        flex-shrink: 0;
+      }
+      .header-brand-name {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 600;
+        opacity: 0.8;
+      }
       .header h1 {
         font-size: 24px;
         font-weight: 600;
@@ -454,7 +476,13 @@
     <div class="container">
       <div class="header">
         <div>
-          <h1>RS3 Unified Topology Widget</h1>
+          <div class="header-brand">
+            <img src="1785112183713.jpg" alt="Pick of Gods" class="header-logo">
+            <div>
+              <div class="header-brand-name">Pick of Gods</div>
+              <h1>RS3 Unified Topology Widget</h1>
+            </div>
+          </div>
           <div class="subtitle">
             Domain-agnostic wiki graph + calculators + league + materials
           </div>
